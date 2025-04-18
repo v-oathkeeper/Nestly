@@ -9,10 +9,11 @@ const listingSchema = new Schema({
   description: String,
   image: {
     type: String,
-    default: "https://unsplash.com/photos/sunset-over-a-silhouetted-forest-0Pp1M0q97bc",
+    default:
+      "https://images.unsplash.com/photo-1744167602287-77dc1cabd4e6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     set: (v) =>
       v === ""
-        ? "https://unsplash.com/photos/sunset-over-a-silhouetted-forest-0Pp1M0q97bc"
+        ? "https://images.unsplash.com/photo-1744167602287-77dc1cabd4e6?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
         : v,
   },
   price: Number,
