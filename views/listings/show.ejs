@@ -8,7 +8,9 @@
                 <div class="card shadow-sm border-0 listing-card">
                     <img src="<%= listing.image %>" class="card-img-top show-img" alt="Listing Image">
                     <div class="card-body">
-                    
+                        <p class="card-text m-2">
+                          Owned by <i><%= listing.owner.username %></i> 
+                        </p>
                         <p class="card-text mb-4">
                             <%= listing.description %>
                         </p>
@@ -27,16 +29,18 @@
                         </div>
                     </div>
                 </div>
-
+                <% if(currUser && currUser._id.equals(listing.owner._id)) { %>
                 <div class="d-flex justify-content-between mt-4">
                     <a href="/listings/<%= listing._id %>/edit" class="btn btn-dark px-4">Edit</a>
                     <form method="post" action="/listings/<%= listing._id %>?_method=DELETE">
                         <button class="btn btn-danger px-4">Delete</button>
                     </form>
                 </div>
+                <% } %>
 
             </div>
             <div class="col-md-8 mb-3">
+                <% if(currUser) { %>
                 <hr/>
                 <h4>Leave a Review</h4>
                 <form action="/listings/<%= listing.id %>/reviews" method="post" novalidate class="needs-validation">
@@ -51,6 +55,7 @@
                 </div>
                    <button class="btn btn-outline-dark">Submit</button>
                 </form>
+                <% } %>
                 <hr/>
                 <p><b>All Reviews</b></p>
 
@@ -59,7 +64,7 @@
                     <% for(review of listing.reviews) { %>
                         <div class="card col-5 ms-3 mb-3">
                             <div class="card-body">
-                                <h5 class="card-title">Jane Doe</h5>
+                                <h5 class="card-title">@<%= review.author.username %></h5>
                                 <p class="card-text"><%= review.comment %></p>
                                 <p class="card-text"><%= review.rating %> stars</p>
                                 <form class="mb-3" method="post" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE">
