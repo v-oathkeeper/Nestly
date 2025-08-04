@@ -1,3 +1,8 @@
+
+  require("dotenv").config();
+
+
+
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
@@ -12,6 +17,7 @@ const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
 const User = require("./models/user.js");
+
 
 const app = express();
 app.set("view engine", "ejs");
