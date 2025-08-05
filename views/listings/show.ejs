@@ -1,4 +1,8 @@
 <% layout("/layouts/boilerplate") %>
+<script>
+    const mapToken = "<%= process.env.MAPBOX_TOKEN %>";
+    const listing = <%- JSON.stringify(listing) %>;
+</script>
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-8">
@@ -74,9 +78,9 @@
                 </form>
                 <% } %>
                 <hr/>
-                <p><b>All Reviews</b></p>
-
+                <% if(listing.reviews.length > 0) { %>
                 <div class="row">
+                    <p><b>All Reviews</b></p>
                 
                     <% for(review of listing.reviews) { %>
                         <div class="card col-5 ms-3 mb-3">
@@ -92,6 +96,14 @@
                         </div>
                     <% } %>
                 </div>
+                <% } %>
+
+            </div>
+            <div class="col-md-8 mb-3">
+                <h3>Where you'll be</h3>
+                <div id="map"></div>
             </div>
         </div>
     </div>
+
+<script src="/js/map.js"></script>
