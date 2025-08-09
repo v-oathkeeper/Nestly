@@ -10,6 +10,7 @@ const methodOverride = require("method-override");
 const ejsMate = require("ejs-mate");
 const ExpressError = require('./utils/ExpressError.js');
 const session = require("express-session");
+const MongoStore = require('connect-mongo');
 const reviewRouter = require("./routes/review.js");
 const listingRouter = require("./routes/listing.js");
 const userRouter = require("./routes/user.js");
@@ -27,8 +28,21 @@ app.use(methodOverride("_method"));
 app.engine("ejs", ejsMate);
 app.use(express.static(path.join(__dirname, "/public")));
 
+const MONGO_URL = process.env.MONGODB_URL;
+
+const store = MongoStore.create({
+  mongoUrl: MONGO_URL,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
+
+store.on("error", () => console.log("ERROR in MONGO SESSION STORE", err));
+
 const sessionOptions = {
-  secret: "secretcode",
+  store,
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -36,6 +50,8 @@ const sessionOptions = {
     maxAge: 7 * 24 * 60 * 60 * 1000,
   },
 };
+
+
 
 app.use(session(sessionOptions));
 app.use(flash()); // before routes as routes are using flash
@@ -53,7 +69,6 @@ app.use((req, res, next) => {
   next();
 });
 
-const MONGO_URL = "mongodb://127.0.0.1:27017/wanderlust";
 
 main()
     .then(() => console.log("Connection successfull"))
@@ -63,9 +78,7 @@ async function main() {
     await mongoose.connect(MONGO_URL);
 }
 
-app.get("/", (req, res) => {
-    res.send("working");
-});
+
 
 // app.get("/demouser", async(req, res) => {
 //   let fakeUser = new User({
@@ -80,6 +93,7 @@ app.get("/", (req, res) => {
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
+
 
 
 

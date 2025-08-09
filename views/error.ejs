@@ -1,7 +1,15 @@
-<%- layout("/layouts/boilerplate") %>
+<%- layout("layouts/boilerplate") %>
 
-<div class="row mt-4">
-    <div class="alert alert-danger col-6 offset-3" role="alert">
-       <p class="alert-heading"> <%= message %></p>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-8 text-center">
+                <div class="alert alert-danger shadow-lg p-4">
+                    <h2 class="mb-3"><i class="bi bi-exclamation-triangle-fill"></i> Error</h2>
+                    <p class="lead">
+                        <%= message %>
+                    </p>
+                    <a href="/listings" class="btn btn-outline-dark mt-3">Back to Listings</a>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
